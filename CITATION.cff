@@ -1,0 +1,9 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+  - family-names: Veksler
+    given-names: Maryne
+title: "Video Origin Camera Identification using Ensemble CNNs of Positional Patches"
+version: 2.0.4
+url: https://github.com/marynavek/cnn_ensemble_vsi
+date-released: 2021-04-17
