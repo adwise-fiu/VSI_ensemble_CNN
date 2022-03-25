@@ -49,14 +49,13 @@ def main(argv):
         sys.exit()
 
     # ffmpeg = '/usr/bin/ffmpeg' # Linux directory
-    ffmpeg = '/usr/local/bin/ffmpeg' # MAC directory
+    ffmpeg_path = '/usr/local/bin/ffmpeg' # MAC directory
 
     outFile = videoName + '_%03d.jpg'
-    
         
     outFilePath = os.path.join(oPath, outFile)
         
-    cmd = [ffmpeg,'-i', inFile,'-f', 'image2','-vf', 
+    cmd = [ffmpeg_path,'-i', inFile,'-f', 'image2','-vf', 
                "select='eq(pict_type,PICT_TYPE_I)'",'-vsync','vfr',outFilePath]
 
     
