@@ -19,12 +19,8 @@ def get_video_compression_types(video_name):
     for category in ['flat', 'indoor', 'outdoor']:
         if category in video_name:
             WA = video_name.replace(category, f"{category}WA")
-            # if "D05" not in video_name:
             YT = video_name.replace(category, f"{category}YT")
-            # if "D05" not in video_name:
             video_types.extend([WA, YT])
-            # else: 
-            #     video_types.extend([WA])
             return video_types
 
 def copy_frames(src_path, dest_path, original_videos, device):
@@ -108,10 +104,7 @@ if __name__ == "__main__":
                             os.path.isdir(os.path.join(outdoor_vids_dir, v)) and "_outdoor_" in v]
 
             num_original_vids = len(flat_vids) + len(indoor_vids) + len(outdoor_vids)
-
-            # num_train_vids = 8
-            # num_test_vids = 8
-
+            
             num_flat_test_vids= int(len(flat_vids)*0.4)
             num_flat_train_vids = len(flat_vids) - num_flat_test_vids
             num_indoor_test_vids= int(len(indoor_vids)*0.4)
