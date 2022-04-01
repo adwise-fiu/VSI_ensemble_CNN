@@ -1,6 +1,7 @@
 import os
 import tensorflow as tf
-from CNN_base_learners.cnn_network import ConstrainedLayer
+from constrained_layer import ConstrainedLayer
+
 from ensemble_data_generator import DataGeneratorEnsemble
 from prepare_dataset_for_ensemble_net import DataSetGeneratorForEnsembleModel
 import numpy as np
@@ -32,7 +33,7 @@ class EnsembleCNN:
         if not self.quadrant_4_model_path.endswith('.h5'):
             raise ValueError('!!! Incorrect path to quadrant 4 model file !!!')
 
-    def get_files_and_labels(test_dictionary):
+    def get_files_and_labels(self, test_dictionary):
         label_key = "class_label"
         frame_path = "quadrant_1_patch"
         actual_encoded_list = [v for list in test_dictionary for k, v in list.items() if k == label_key]
@@ -48,14 +49,17 @@ class EnsembleCNN:
         predictions = model.predict(generator)
         return predictions
 
-    def handle_difference_cause_by_batch_predictions(self, acttual_labels, predicted_labels):
-        array_difference = len(acttual_labels) - len(predicted_labels)
+    def handle_difference_cause_by_batch_predictions(self, actual_labels_array, predicted_labels):
+        array_difference = len(actual_labels_array) - len(predicted_labels)
         for i in range(array_difference):
-            acttual_labels.pop()
-        return np.array(acttual_labels)
+            actual_labels_array.pop()
+        actual_labels_array = np.array(actual_labels_array)
+        actual_labels = np.argmax(actual_labels_array, axis=1)
+        return actual_labels
 
     def calculate_quadrant_model_accuracy(self, predictions, actual_labels, quadrant):
         predicted_labels = np.argmax(predictions, axis=1)
+        print(np.shape(predicted_labels))
         acc = accuracy_score(predicted_labels, actual_labels)
         print(f"The accuracy for quadrant {quadrant} is {acc}")
 
@@ -78,7 +82,7 @@ class EnsembleCNN:
         quadrant_4_model = self.load_model(self.quadrant_4_model_path)
 
         data_factory = DataSetGeneratorForEnsembleModel(input_dir_patchs=self.ds_path_quadrant_1)
-        test_ds = data_factory.create_test_ds_4_quadrants_after_selection(self.ds_path_quadrant_1, self.ds_path_quadrant_2, self.ds_path_quadrant_3, self.ds_path_quadrant_4)
+        test_ds = data_factory.create_test_ds_4_quadrants(self.ds_path_quadrant_1, self.ds_path_quadrant_2, self.ds_path_quadrant_3, self.ds_path_quadrant_4)
         actual_encoded_labels, frames_list = self.get_files_and_labels(test_ds)
 
         num_classes = len(data_factory.get_class_names())
@@ -108,7 +112,6 @@ class EnsembleCNN:
         if not os.path.exists(full_path_to_file):
             os.makedirs(full_path_to_file)
         file_path = os.path.join(full_path_to_file, "ensemble_predictions.csv")
-        actual_labels = np.argmax(true_labels, axis = 1)
-        data_results = pd.DataFrame(list(zip(frames_list, actual_labels, predicted_labels)), columns=["File", "True Label", "Predicted Label"])
+        data_results = pd.DataFrame(list(zip(frames_list, true_labels, predicted_labels)), columns=["File", "True Label", "Predicted Label"])
         data_results.to_csv(file_path, index=False) 
         

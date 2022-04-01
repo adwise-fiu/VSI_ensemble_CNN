@@ -1,5 +1,5 @@
-import argparse
-from CNN_branch_data_generator import DataGeneratorCNNBranch
+import argparse, os
+from prepare_dataset_for_network import DataSetGeneratorForBranchCNN
 from cnn_network import BranchCNNModel
 
 parser = argparse.ArgumentParser(
@@ -9,7 +9,7 @@ parser = argparse.ArgumentParser(
 parser.add_argument('--ds_path', type=str, required=True, help="Absolute path to the folder containing all quadrants")
 parser.add_argument('--model_path', type=str, required=True, help="Absolute path to the folder where model needs to be saved")
 parser.add_argument('--tensor_flow_path', type=str, required=True, help="Absolute path to the folder where tensor information needs to be saved")
-parser.add_argument('--quadrant', type=int, required=True, help="Quadrant number. 1, 2, 3, or 4")
+parser.add_argument('--quadrant', type=str, required=True, help="Quadrant number. quadrant_1, quadrant_2, quadrant_3, or quadrant_4")
 if __name__ == "__main__":
     args = parser.parse_args()
     dataset_path = args.ds_path
@@ -17,7 +17,8 @@ if __name__ == "__main__":
     tensor_flow_path = args.tensor_flow_path
     quadrant = args.quadrant
 
-    data_factory = DataGeneratorCNNBranch(input_dir_patchs=dataset_path)
+    dataset_path = os.path.join(dataset_path, quadrant)
+    data_factory = DataSetGeneratorForBranchCNN(input_dir_patchs=dataset_path)
 
     num_classes = len(data_factory.get_class_names())
     
@@ -27,7 +28,7 @@ if __name__ == "__main__":
     valid_dataset_dict = data_factory.create_validation_dataset()
     print(f'Validation dataset contains {len(valid_dataset_dict)} samples')
     
-    constr_net = BranchCNNModel(quadrant=quadrant, model_path=model_path, tensor_flow_path=tensor_flow_path)
+    constr_net = BranchCNNModel(quadrant=quadrant, model_files_path=model_path, tensorflow_files_path=tensor_flow_path)
     
     constr_net.create_model(num_classes)
     

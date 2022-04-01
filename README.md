@@ -57,7 +57,9 @@ ensemble_CNN folder contains the code to run the ensembled CNN. It also saves cs
 
 1. Run ensemble_CNN/run_ensemble_network.py to create ensemble and get the final predictions.
 
-For "--path_to_directory=" parameter use absolute path of this github repository on your computer. It should ends on "cnn_ensemble_vsi"
+For "--path_to_directory=" parameter use absolute path of this github repository on your computer. It should ends on "cnn_ensemble_vsi".
+
+For path to the model parameter, the argument is absolute file to the ".h5" file containing the best model (last save model).
 
 ```
 python3 ensemble_CNN/run_ensemble_network.py --quadrant_1_model_path="absolute/path/to/model_file/for/quadrant/1" --quadrant_2_model_path="absolute/path/to/model_file/for/quadrant/2" --quadrant_3_model_path="absolute/path/to/model_file/for/quadrant/3" --quadrant_4_model_path="absolute/path/to/model_file/for/quadrant/4" --ds_path_quadrant_1="absolute/path/to/folder/containing/quadrant/1/patches" --ds_path_quadrant_2="absolute/path/to/folder/containing/quadrant/2/patches" --ds_path_quadrant_3="absolute/path/to/folder/containing/quadrant/3/patches" --ds_path_quadrant_4="absolute/path/to/folder/containing/quadrant/4/patches" --path_to_directory="absolute/path/to/directory/containg/this/github/repository"

@@ -69,6 +69,6 @@ if __name__ == "__main__":
 
                 video_path = os.path.join(video_type_folder, video)
                 print("Extracting frames for " + video)
-                os.system("sudo python3 iframe.py -i " + video_path + " -p " + output_video_path + " -o " + video_type + " -c " + video) 
+                os.system("sudo python3 dataset/frames_extraction/iframe.py -i " + video_path + " -p " + output_video_path + " -o " + video_type + " -c " + video) 
 
                 

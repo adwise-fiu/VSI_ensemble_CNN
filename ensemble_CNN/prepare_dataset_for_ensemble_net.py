@@ -61,7 +61,7 @@ class DataSetGeneratorForEnsembleModel:
             quadrant2_path = ""
             quadrant3_path = ""
             quadrant4_path = ""
-            file_path, file_name = os.path.split(file_path)
+            file_path, file_name = os.path.split(path)
             _, corrected_name = file_name.split("frame")
             frame_number, video_name = corrected_name.split("_vid_name_")
             classes = self.get_class_names()

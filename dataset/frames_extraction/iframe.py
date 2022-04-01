@@ -59,8 +59,6 @@ def main(argv):
                "select='eq(pict_type,PICT_TYPE_I)'",'-vsync','vfr',outFilePath]
 
     
-    print("hello")
-    print (cmd)
     subprocess.call(cmd)
 
 if __name__ == "__main__":
