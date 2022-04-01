@@ -1,6 +1,6 @@
 import argparse
 
-from ensemble_CNN.ensemble_CNN import EnsembleCNN
+from ensemble_CNN import EnsembleCNN
 
 parser = argparse.ArgumentParser(
     description='Run Ensemble CNN',
